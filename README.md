@@ -69,3 +69,29 @@ This project does NOT own:
 - Redis cache layer → `../data-layer-redis`
 - Framework adapters → `../data-layer-adapters`
 - Umbrella orchestration → `..`
+
+## Installer URI + idempotency
+
+`lib/falkordb.sh` downloads the FalkorDB binary from a release tarball
+URI by default:
+
+```
+https://github.com/FalkorDB/FalkorDB/releases/download/v${DATA_LAYER_FALKORDB_VERSION}/falkordb-linux-x86_64.tar.gz
+```
+
+The installer is idempotent across three cases:
+
+1. First run — no binary present: download + extract + `install -m 0755`.
+2. Re-run — binary present with matching version: download skipped.
+3. Version bump — binary present with old version: download + atomic overwrite.
+
+Override the URI or version via env vars:
+
+```bash
+export DATA_LAYER_FALKORDB_VERSION=1.2.0
+export DATA_LAYER_FALKORDB_TARBALL_URL=https://mirror.example/falkordb.tgz
+sudo bash lib/falkordb.sh
+```
+
+See `docs/decisions/0001-falkordb-installer-uri-and-idempotency.md` for
+the rationale.
