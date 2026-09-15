@@ -50,9 +50,26 @@ bash tests/smoke.sh
 
 ## Environment
 
-- `DATA_LAYER_FALKORDB_URL` — bolt URI (default `bolt://localhost:7687`)
+- `DATA_LAYER_FALKORDB_URL` — bolt URI (default `bolt://localhost:7687`).
+  For the docker-based test sandbox, use `redis://127.0.0.1:6379`
+  (raw RESP — FalkorDB speaks the Redis protocol on 6379; 7687 is the
+  embedded Next.js web UI).
 - `DATA_LAYER_FALKORDB_DATABASE` — graph name (default `default`)
-- `DATA_LAYER_FALKORDB_PORT` — server port (default `7687`)
+- `DATA_LAYER_FALKORDB_PORT` — server port (default `7687`; 6379 for RESP)
+
+## Runtime properties on graph nodes
+
+Some `Session` properties are written by the
+`data-layer-adapters` publish hook at runtime (not by `install.sh`):
+
+- `Session.last_heartbeat_at` — mirrors
+  `sessions.last_heartbeat_at` (postgres migration 0004). Written by
+  the `session.heartbeat` projection in
+  `data-layer-adapters/lib/write_through.py`.
+- `Session.last_heartbeat_source` — mirrors `session_heartbeats.source`.
+
+See `docs/graph-schema.md` ("Node properties (promoted state)") for
+the full list and the canonical MERGE statements.
 
 ## Status
 

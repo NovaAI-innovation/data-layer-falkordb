@@ -54,6 +54,27 @@ migrations/
 | `SENT_MESSAGE` | Session → Session | `message_id`, `sent_at` |
 | `RAN_TOOL` | Session → Tool | `tool_execution_id`, `started_at` |
 
+## Node properties (promoted state)
+
+Properties below mirror columns added by the postgres migrations in
+`data-layer-postgres/migrations/` (0004+). They are written by the
+redis publish hook (see
+`data-layer-adapters/docs/decisions/0001-dual-write-and-redis-publish-hook.md`)
+from MERGE statements in
+`data-layer-adapters/lib/write_through.py:session_heartbeat_record`.
+
+| Label | Property | Source |
+|---|---|---|
+| `Session` | `last_heartbeat_at` | `sessions.last_heartbeat_at` (migration 0004) — written by `session.heartbeat` projection. |
+| `Session` | `last_heartbeat_source` | `session_heartbeats.source` — `adapter` / `replay` / `import`. |
+
+The `Session.last_heartbeat_at` property is the canonical cross-store
+presence signal: postgres holds the audit trail in `session_heartbeats`,
+redis caches the most-recent value, and falkordb holds the graph-side
+mirror so traversals like `MATCH (s:Session) WHERE s.last_heartbeat_at > $cutoff`
+work without touching either of the other stores.
+
+
 ## Example traversals
 
 ### All sessions in a project that ran tool X
