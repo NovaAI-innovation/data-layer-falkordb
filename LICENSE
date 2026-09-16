@@ -1,0 +1,40 @@
+Server Side Public License v1 (SSPL v1)
+
+Copyright (c) 2026 Casey (data-layer wrapping)
+Copyright (c) FalkorDB project contributors (upstream, per SSPL v1)
+
+This `data-layer-falkordb` repository wraps FalkorDB
+(https://github.com/FalkorDB/FalkorDB), which is distributed under the
+Server Side Public License v1 (SSPL v1) by its upstream copyright holders.
+
+For the binding canonical SSPL v1 text, see:
+https://www.mongodb.com/licensing/server-side-public-license
+
+By operating, distributing, or making available as a service any portion of
+this `data-layer-falkordb` repository (including the embedded fork of
+FalkorDB and any modifications), you accept and agree to the SSPL v1 terms.
+
+Key obligations (summary; not legal advice — see the canonical URL above):
+
+  1. Attribution. Preserve copyright and license notices in all copies.
+
+  2. Modifications distributed in source form must be made available in
+     source form.
+
+  3. Service-side availability. If you make the functionality of this
+     repository (or any portion thereof) available to third parties as a
+     service — including as a hosted service, multi-tenant service, or
+     SaaS — you must make the source code of the entire service, including
+     all modifications and ancillary code, available to those third parties
+     in source form, OR ensure that they have such access.
+
+  4. No additional restrictions. You may not impose additional terms on the
+     exercise of rights granted under SSPL v1.
+
+  5. NO WARRANTY. Provided "AS IS" without warranty of any kind, express
+     or implied, including merchantability, fitness for a particular
+     purpose, and noninfringement.
+
+If your use case cannot accommodate SSPL v1's service-side availability
+obligation, you must obtain a separate commercial license from the FalkorDB
+copyright holders.
