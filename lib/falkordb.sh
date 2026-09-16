@@ -47,7 +47,7 @@ fi
 
 # ---- install if needed ----
 if [[ $needs_install -eq 1 ]]; then
-  if [[ $IN_DOCKER -eq 0 ]] && command -v curl >/dev/null 2>&1; then
+  if command -v curl >/dev/null 2>&1; then
     TMP=$(mktemp -d)
     trap "rm -rf '$TMP'" EXIT
     log "downloading $TARBALL_URL"
@@ -63,11 +63,10 @@ if [[ $needs_install -eq 1 ]]; then
       fi
       log "installed falkordb to $BIN"
     else
-      log "(download failed; manually install falkordb v$VERSION or override DATA_LAYER_FALKORDB_TARBALL_URL)"
-      log "(falling back to apt or source build for this scaffold)"
+      fail "download failed: $TARBALL_URL (set DATA_LAYER_FALKORDB_TARBALL_URL to a working release asset URL)"
     fi
   else
-    log "(no curl or in docker; manually install falkordb v$VERSION)"
+    fail "curl is required to download falkordb; install curl or override DATA_LAYER_FALKORDB_TARBALL_URL with a pre-staged file://path"
   fi
 fi
 
